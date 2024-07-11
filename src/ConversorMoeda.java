@@ -6,10 +6,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConversorMoeda {
 
-    public Moeda ConversorMoedaSelecionada(int moeda, int valor) {
+    public List<String> ConversorMoedaSelecionada(int moeda, int valor) {
         String moedaBase = "";
         String moedaFinal = "";
 
@@ -38,8 +40,6 @@ public class ConversorMoeda {
                 moedaBase = "COP";
                 moedaFinal = "USD";
                 break;
-            case 7:
-                System.out.println("Saindo");
         }
         try {
             URI endereco = URI.create("https://v6.exchangerate-api.com/v6/fe5fb419dfcb4ec1a48cff85/pair/" + moedaBase + "/" + moedaFinal + "/" + valor);
@@ -50,7 +50,17 @@ public class ConversorMoeda {
             HttpResponse<String> response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
-            return new Gson().fromJson((response.body()), Moeda.class);
+
+            var json = new Gson().fromJson((response.body()), Moeda.class);
+
+            List<String> json2 = new ArrayList<>();
+            json2.add(json.moedaBase());
+            json2.add(json.moedaFinal());
+            json2.add(json.moedaConvertida());
+
+
+
+            return json2;
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

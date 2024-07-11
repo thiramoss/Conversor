@@ -12,6 +12,8 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,15 +23,21 @@ public class Main {
         int valor;
         ConversorMoeda moedaSelecionada = new ConversorMoeda();
 
-                System.out.println("Seja bem vindo(a) ao Conversor de moeda \n");
+        System.out.println("Seja bem vindo(a) ao Conversor de moeda \n");
         System.out.println("1) Dólar =>> Peso argentino. \n2) Peso argentino =>> Dólar \n3) Dólar =>> Real brasileiro \n4) Real brasileiro =>> Dólar \n5) Dólar =>> Peso colombiano \n6) Peso colombiano =>> Dólar \n7) sair\n");
         System.out.println("Digite uma opção válida: ");
         moedaConverter = leitura.nextInt();
-        System.out.println("Digite o valor que deseja converter: ");
-        valor = leitura.nextInt();
 
-        Moeda conversaoMoeda = moedaSelecionada.ConversorMoedaSelecionada(moedaConverter, valor);
-        System.out.println(conversaoMoeda);
+        if (moedaConverter >= 7) {
+            System.out.println("Saindo");
+            ;
+        } else {
+            System.out.println("Digite o valor que deseja converter: ");
+            valor = leitura.nextInt();
 
+
+            List<String> conversaoMoeda = new ArrayList<>(moedaSelecionada.ConversorMoedaSelecionada(moedaConverter, valor));
+            System.out.println("Valor " + valor + conversaoMoeda.get(0) + " Corresponde ao valor final de " + conversaoMoeda.get(2) + conversaoMoeda.get(1));
         }
     }
+}
